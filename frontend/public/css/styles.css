@@ -1,0 +1,17 @@
+html {
+  box-sizing: border-box;
+}
+
+body {
+}
+
+header {
+  background-color: #404040;
+  padding: 1em;
+}
+
+header a {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
