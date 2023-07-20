@@ -1,3 +1,10 @@
+// Create reducer for getting products info
+// create variables for getting products
+// connect to server
+// Set Amazona to name of tab
+// Display a Spinner for loading
+// Display a box if there is an error // test network offline / throttling
+// display products in a row so that small = 2  medium = 4 Large = 4
 import { useEffect, useReducer, useState } from "react";
 import axios from "axios";
 import Row from "react-bootstrap/Row";
@@ -7,7 +14,6 @@ import { Helmet } from "react-helmet-async";
 import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
 
-// Create reducer for getting products info
 const reducer = (state, action) => {
   switch (action.type) {
     case "FETCH_REQUEST":
@@ -21,7 +27,6 @@ const reducer = (state, action) => {
   }
 };
 
-// create variables for getting products
 function HomeScreen() {
   const [{ loading, error, products }, dispatch] = useReducer(reducer, {
     products: [],
@@ -29,7 +34,6 @@ function HomeScreen() {
     error: "",
   });
 
-  // connect to server
   useEffect(() => {
     (async () => {
       dispatch({ type: "FETCH_REQUEST" });
@@ -44,10 +48,6 @@ function HomeScreen() {
     })();
   }, []);
 
-  // Set Amazona to name of tab
-  // Display a Spinner for loading
-  // Display a box if there is an error // test network offline / throttling
-  // display products in a row so that small = 2  medium = 4 Large = 4
   return (
     <div>
       <Helmet>
