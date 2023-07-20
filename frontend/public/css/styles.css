@@ -42,3 +42,7 @@ main {
   width: 100%;
   max-width: 400px;
 }
+
+.img-thumbnail {
+  height: 80px;
+}
