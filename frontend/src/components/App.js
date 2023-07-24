@@ -11,9 +11,11 @@ import { LinkContainer } from "react-router-bootstrap";
 import { Store } from "../Store";
 import CartScreen from "../screens/CartScreen";
 import SigninScreen from "../screens/SigninScreen";
+import ShippingAddressScreen from "../screens/ShippingAddressScreen";
+import SignupScreen from "../screens/SignupScreen";
 
 // Create a Navbar with name Amazona
-// Create Router for Pages Home Product
+// Create Router for pages Home Product Cart Signin
 // Create a Footer that attached to Bot of Screen
 const App = () => {
   const { state, dispatch: ctxDispatch } = useContext(Store);
@@ -22,6 +24,7 @@ const App = () => {
   const signoutHandler = () => {
     ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
+    localStorage.removeItem("shippingAddress");
   };
 
   return (
@@ -71,8 +74,13 @@ const App = () => {
         <main>
           <Container className="mt-3">
             <Routes>
+              <Route
+                path="/shipping"
+                element={<ShippingAddressScreen />}
+              ></Route>
               <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/cart" element={<CartScreen />} />
+              <Route path="/signup" element={<SignupScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
               <Route path="/" element={<HomeScreen />} />
             </Routes>
