@@ -1,0 +1,23 @@
+[
+  {
+    "_id": "1",
+    "name": "Basir",
+    "email": "admin@example.com",
+    "password": "$2a$10$RfI8NJKYRhSx0QIgnhb6PuN30b1zHc5KW9c0JKXReUpR.XDz9bPt6",
+    "isAdmin": true
+  },
+  {
+    "_id": "2",
+    "name": "John",
+    "email": "user@example.com",
+    "password": "$2a$10$AfPYS76tRsGqryms/oycW.z7fNeZyFTDSWNjedORKjC38hn3kE7by",
+    "isAdmin": false
+  },
+  {
+    "_id": "3",
+    "name": "Jane Doe",
+    "email": "janedoe@gmail.com",
+    "password": "$2a$10$qJ3PhDLpXvJQeBPAN8Sj0OneYOya55VbAKKnmJPzqaPYf0d1ciR/O",
+    "isAdmin": false
+  }
+]
