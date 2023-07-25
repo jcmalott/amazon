@@ -13,6 +13,7 @@ import CartScreen from "../screens/CartScreen";
 import SigninScreen from "../screens/SigninScreen";
 import ShippingAddressScreen from "../screens/ShippingAddressScreen";
 import SignupScreen from "../screens/SignupScreen";
+import PaymentMethodScreen from "../screens/PaymentMethodScreen";
 
 // Create a Navbar with name Amazona
 // Create Router for pages Home Product Cart Signin
@@ -25,6 +26,7 @@ const App = () => {
     ctxDispatch({ type: "USER_SIGNOUT" });
     localStorage.removeItem("userInfo");
     localStorage.removeItem("shippingAddress");
+    localStorage.removeItem("paymentMethod");
   };
 
   return (
@@ -78,6 +80,7 @@ const App = () => {
                 path="/shipping"
                 element={<ShippingAddressScreen />}
               ></Route>
+              <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/product/:slug" element={<ProductScreen />} />
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/signup" element={<SignupScreen />} />
