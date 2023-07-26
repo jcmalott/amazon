@@ -9,7 +9,7 @@ export default function Order(orderInfo, user) {
     orderItems: orderInfo.orderItems.map((x) => ({
       slug: x.slug,
       name: x.name,
-      quantity: x.image,
+      quantity: x.quantity,
       image: x.image,
       price: x.price,
       product: x._id,

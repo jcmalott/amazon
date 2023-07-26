@@ -15,6 +15,7 @@ import ShippingAddressScreen from "../screens/ShippingAddressScreen";
 import SignupScreen from "../screens/SignupScreen";
 import PaymentMethodScreen from "../screens/PaymentMethodScreen";
 import PlaceOrderScreen from "../screens/PlaceOrderScreen";
+import OrderScreen from "../screens/OrderScreen";
 
 // Create a Navbar with name Amazona
 // Create Router for pages Home Product Cart Signin
@@ -81,6 +82,7 @@ const App = () => {
                 path="/shipping"
                 element={<ShippingAddressScreen />}
               ></Route>
+              <Route path="/order/:id" element={<OrderScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/product/:slug" element={<ProductScreen />} />

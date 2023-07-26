@@ -54,6 +54,19 @@ app.get("/api/products/:id", (req, res) => {
   });
 });
 
+app.get("/api/orders/:id", isAuth, (req, res) => {
+  fs.readFile("./data/orders.json", "utf-8", (err, data) => {
+    if (err) {
+      res.status(404).send({ message: "Can't connect to orders Database" });
+    } else {
+      const orders = JSON.parse(data);
+      const order = orders.find((x) => x._id === req.params.id);
+      console.log(order);
+      res.send(order);
+    }
+  });
+});
+
 //POST
 app.post("/api/users/signin", (req, res) => {
   fs.readFile("./data/users.json", "utf-8", (err, data) => {
@@ -101,7 +114,7 @@ app.post("/api/users/signup", (req, res) => {
 
 app.post("/api/orders", isAuth, (req, res) => {
   const newOrder = Order(req.body, req.user);
-  AddToFile("./data/orders.json", newOrder);
+  AddToFile("./data/orders.json", newOrder, true);
 
   res.status(201).send({ message: "New Order Created", newOrder });
 });
