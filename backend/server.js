@@ -9,10 +9,15 @@ import bcrypt from "bcryptjs";
 import { generateToken, isAuth } from "./utils.js";
 import Order from "./components/Order.js";
 import AddToFile from "./components/AddToFile.js";
+import { PAYPAL_CLIENT_ID } from "./ServerStrings.js";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.get("/api/keys/paypal", isAuth, (req, res) => {
+  res.send(PAYPAL_CLIENT_ID || "sb");
+});
 
 app.get("/api/products", (req, res) => {
   fs.readFile("./data/clothing.json", "utf-8", (err, data) => {
@@ -61,8 +66,49 @@ app.get("/api/orders/:id", isAuth, (req, res) => {
     } else {
       const orders = JSON.parse(data);
       const order = orders.find((x) => x._id === req.params.id);
-      console.log(order);
       res.send(order);
+    }
+  });
+});
+
+//PUT
+app.put("/api/orders/:id/pay", isAuth, (req, res) => {
+  var today = new Date();
+  var date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+  var time =
+    today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+  fs.readFile("./data/orders.json", "utf-8", (err, data) => {
+    if (err) {
+      res.status(404).send({ message: "Can't connect to orders Database" });
+    } else {
+      const orders = JSON.parse(data);
+      const order = orders.find((x) => x._id === req.params.id);
+
+      if (order) {
+        order.isPaid = true;
+        order.paidAt = new Date().toJSON();
+        order.paymentResult = {
+          id: req.body.id,
+          status: req.body.status,
+          update_time: req.body.update_time,
+          email_address: req.body.email_address,
+        };
+
+        //Update order info to database
+        orders[req.params.id] = order;
+        fs.writeFile(
+          "./data/orders.json",
+          JSON.stringify(orders, null, 2),
+          (err) => {
+            err ? console.log(err) : console.log("File Written");
+          }
+        );
+        res.send({ message: "Order Paid", order: order });
+      } else {
+        res.status(404).send({ message: "Order Not Found" });
+      }
     }
   });
 });
@@ -113,10 +159,23 @@ app.post("/api/users/signup", (req, res) => {
 });
 
 app.post("/api/orders", isAuth, (req, res) => {
-  const newOrder = Order(req.body, req.user);
-  AddToFile("./data/orders.json", newOrder, true);
+  let order = Order(req.body, req.user);
+  const fileContents = fs.readFileSync("./data/orders.json", "utf-8");
+  let parseContents = JSON.parse(fileContents);
+  order = { ...order, _id: "" + (parseContents.length + 1) };
 
-  res.status(201).send({ message: "New Order Created", newOrder });
+  parseContents.push(order);
+  fs.writeFile(
+    "./data/orders.json",
+    JSON.stringify(parseContents, null, 2),
+    (err) => {
+      err ? console.log(err) : console.log("File Written");
+    }
+  );
+
+  // AddToFile("./data/orders.json", newOrder, true);
+
+  res.status(201).send({ message: "New Order Created", order });
 });
 
 const port = process.env.PORT || 5000;

@@ -5,7 +5,7 @@ export default function AddToFile(fileLocation, newContent, setId = false) {
 
   let parseContents = JSON.parse(fileContents);
   if (setId) {
-    newContent = { ...newContent, _id: "" + parseContents.length + 1 };
+    newContent = { ...newContent, _id: "" + (parseContents.length + 1) };
   }
 
   parseContents.push(newContent);
