@@ -19,6 +19,17 @@ app.get("/api/keys/paypal", isAuth, (req, res) => {
   res.send(PAYPAL_CLIENT_ID || "sb");
 });
 
+app.get("/api/orders/mine", isAuth, (req, res) => {
+  fs.readFile("./data/orders.json", "utf-8", (err, data) => {
+    if (err) {
+      res.status(404).send({ message: "Can't connect to orders Database" });
+    } else {
+      const orders = JSON.parse(data);
+      res.send(orders.filter((x) => x.user_id === req.user._id));
+    }
+  });
+});
+
 app.get("/api/products", (req, res) => {
   fs.readFile("./data/clothing.json", "utf-8", (err, data) => {
     err

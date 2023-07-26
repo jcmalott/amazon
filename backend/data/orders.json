@@ -41,7 +41,8 @@
     "isPaid": false,
     "paidAt": "",
     "isDelivered": false,
-    "deliveredAt": ""
+    "deliveredAt": "",
+    "createdAt": "2023-7-26 8:23:45"
   },
   {
     "_id": "2",
@@ -77,48 +78,8 @@
     "isPaid": false,
     "paidAt": "",
     "isDelivered": false,
-    "deliveredAt": ""
-  },
-  {
-    "orderItems": [
-      {
-        "slug": "nike-slim-shirt",
-        "name": "Nike Slim Shirt",
-        "quantity": 1,
-        "image": "/img/p1.jpg",
-        "price": 120,
-        "product": "1"
-      }
-    ],
-    "shippingAddress": {
-      "fullName": "Joe",
-      "address": "love st",
-      "city": "lebanon",
-      "postalCode": "45026",
-      "country": "US"
-    },
-    "paymentMethod": "PayPal",
-    "paymentResults": {
-      "id": "3",
-      "status": "Paid",
-      "emailAddress": "janedoe@gmail.com",
-      "update_time": "2023-7-26 10:27:8"
-    },
-    "itemsPrice": 120,
-    "shippingPrice": 0,
-    "taxPrice": 18,
-    "totalPrice": 138,
-    "user_id": "3",
-    "isPaid": true,
-    "paidAt": 1690394569569,
-    "isDelivered": false,
     "deliveredAt": "",
-    "_id": "5",
-    "paymentResult": {
-      "id": "7CX911181S932520G",
-      "status": "COMPLETED",
-      "update_time": "2023-07-26T18:02:54Z"
-    }
+    "createdAt": "2023-7-26 8:23:45"
   },
   {
     "orderItems": [
@@ -151,8 +112,9 @@
     "totalPrice": 138,
     "user_id": "3",
     "isPaid": true,
-    "paidAt": 1690394569569,
+    "paidAt": "2023-07-26T18:12:17.752Z",
     "isDelivered": false,
+    "createdAt": "2023-7-26 8:23:45",
     "deliveredAt": "",
     "_id": "5",
     "paymentResult": {
@@ -194,6 +156,7 @@
     "isPaid": false,
     "paidAt": "",
     "isDelivered": false,
+    "createdAt": "2023-7-26 8:23:45",
     "deliveredAt": "",
     "_id": "7"
   },
@@ -231,47 +194,7 @@
     "paidAt": "2023-07-26T18:12:17.752Z",
     "isDelivered": false,
     "deliveredAt": "",
-    "_id": "6",
-    "paymentResult": {
-      "id": "8GL284559K373715V",
-      "status": "COMPLETED",
-      "update_time": "2023-07-26T18:12:23Z"
-    }
-  },
-  {
-    "orderItems": [
-      {
-        "slug": "nike-slim-shirt",
-        "name": "Nike Slim Shirt",
-        "quantity": 1,
-        "image": "/img/p1.jpg",
-        "price": 120,
-        "product": "1"
-      }
-    ],
-    "shippingAddress": {
-      "fullName": "Joe",
-      "address": "love st",
-      "city": "lebanon",
-      "postalCode": "45026",
-      "country": "US"
-    },
-    "paymentMethod": "PayPal",
-    "paymentResults": {
-      "id": "3",
-      "status": "Paid",
-      "emailAddress": "janedoe@gmail.com",
-      "update_time": "2023-7-26 11:11:11"
-    },
-    "itemsPrice": 120,
-    "shippingPrice": 0,
-    "taxPrice": 18,
-    "totalPrice": 138,
-    "user_id": "3",
-    "isPaid": true,
-    "paidAt": "2023-07-26T18:12:17.752Z",
-    "isDelivered": false,
-    "deliveredAt": "",
+    "createdAt": "2023-7-26 8:23:45",
     "_id": "6",
     "paymentResult": {
       "id": "8GL284559K373715V",

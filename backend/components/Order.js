@@ -27,6 +27,7 @@ export default function Order(orderInfo, user) {
     taxPrice: orderInfo.taxPrice,
     totalPrice: orderInfo.totalPrice,
     user_id: user._id,
+    createdAt: date + " " + time,
     isPaid: false,
     paidAt: "",
     isDelivered: false,
