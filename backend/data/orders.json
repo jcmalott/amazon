@@ -1,0 +1,80 @@
+[
+  {
+    "orderItems": [
+      {
+        "slug": "nike-slim-shirt",
+        "name": "Nike Slim Shirt",
+        "quantity": "/img/p1.jpg",
+        "image": "/img/p1.jpg",
+        "price": 120,
+        "product": "1"
+      },
+      {
+        "slug": "nike-slim-pants",
+        "name": "Nike Slim Pants",
+        "quantity": "/img/p3.jpg",
+        "image": "/img/p3.jpg",
+        "price": 170,
+        "product": "3"
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "Joe",
+      "address": "love st",
+      "city": "lebanon",
+      "postalCode": "45026",
+      "country": "US"
+    },
+    "paymentMethod": "Stripe",
+    "paymentResults": {
+      "id": "3",
+      "status": "Paid",
+      "emailAddress": "janedoe@gmail.com",
+      "update_time": "2023-7-26 8:23:45"
+    },
+    "itemsPrice": 290,
+    "shippingPrice": 0,
+    "taxPrice": 43.5,
+    "totalPrice": 333.5,
+    "user_id": "3",
+    "isPaid": false,
+    "paidAt": "",
+    "isDelivered": false,
+    "deliveredAt": ""
+  },
+  {
+    "orderItems": [
+      {
+        "slug": "adidas-slim-pants",
+        "name": "Adidas Slim Pants",
+        "quantity": "/img/p4.jpg",
+        "image": "/img/p4.jpg",
+        "price": 150,
+        "product": "4"
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "Joe",
+      "address": "love st",
+      "city": "lebanon",
+      "postalCode": "45026",
+      "country": "US"
+    },
+    "paymentMethod": "PayPal",
+    "paymentResults": {
+      "id": "3",
+      "status": "Paid",
+      "emailAddress": "janedoe@gmail.com",
+      "update_time": "2023-7-26 8:26:30"
+    },
+    "itemsPrice": 150,
+    "shippingPrice": 0,
+    "taxPrice": 22.5,
+    "totalPrice": 172.5,
+    "user_id": "3",
+    "isPaid": false,
+    "paidAt": "",
+    "isDelivered": false,
+    "deliveredAt": ""
+  }
+]

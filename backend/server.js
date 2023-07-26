@@ -6,7 +6,9 @@ import express from "express";
 import fs from "fs";
 import products from "./data/products.js";
 import bcrypt from "bcryptjs";
-import { generateToken } from "./utils.js";
+import { generateToken, isAuth } from "./utils.js";
+import Order from "./components/Order.js";
+import AddToFile from "./components/AddToFile.js";
 
 const app = express();
 app.use(express.json());
@@ -86,13 +88,7 @@ app.post("/api/users/signup", (req, res) => {
     isAdmin: false,
   };
 
-  const fileContents = fs.readFileSync("./data/users.json", "utf-8");
-
-  let users = JSON.parse(fileContents);
-  users.push(newUser);
-  fs.writeFile("./data/users.json", JSON.stringify(users, null, 2), (err) => {
-    err ? console.log(err) : console.log("File Written");
-  });
+  AddToFile("./data/users.json", newUser);
 
   res.send({
     _id: newUser._id,
@@ -101,6 +97,13 @@ app.post("/api/users/signup", (req, res) => {
     isAdmin: newUser.isAdmin,
     token: generateToken(newUser),
   });
+});
+
+app.post("/api/orders", isAuth, (req, res) => {
+  const newOrder = Order(req.body, req.user);
+  AddToFile("./data/orders.json", newOrder);
+
+  res.status(201).send({ message: "New Order Created", newOrder });
 });
 
 const port = process.env.PORT || 5000;
