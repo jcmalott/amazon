@@ -22,6 +22,7 @@ import axios from "axios";
 import { getError } from "../helper/utils";
 import Button from "react-bootstrap/Button";
 import SearchBox from "./SearchBox";
+import SearchScreen from "../screens/SearchScreen";
 
 // Create a Navbar with name Amazona
 // Create Router for pages Home Product Cart Signin
@@ -146,6 +147,7 @@ const App = () => {
                 path="/shipping"
                 element={<ShippingAddressScreen />}
               ></Route>
+              <Route path="/search" element={<SearchScreen />} />
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/orderhistory" element={<OrderHistoryScreen />} />
               <Route path="/order/:id" element={<OrderScreen />} />

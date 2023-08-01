@@ -97,6 +97,87 @@ app.get("/api/categories", (req, res) => {
   });
 });
 
+const PAGE_SIZE = 3;
+app.get("/api/search", (req, res) => {
+  const { query } = req;
+  const pageSize = query.pageSize || PAGE_SIZE;
+  const page = query.page || 1;
+  const category = query.category || "";
+  const price = query.price || "";
+  const rating = query.rating || "";
+  const order = query.order || "";
+  const searchQuery = query.query || "";
+
+  // const queryFilter =
+  //   searchQuery && searchQuery !== "all"
+  //     ? {
+  //         name: {
+  //           $regex: searchQuery,
+  //           $options: "i",
+  //         },
+  //       }
+  //     : {};
+
+  // const priceFilter =
+  //   price && price !== "all"
+  //     ? {
+  //         // 1-50
+  //         price: {
+  //           $gte: Number(price.split("-")[0]),
+  //           $lte: Number(price.split("-")[1]),
+  //         },
+  //       }
+  //     : {};
+
+  function sortOrder(list) {
+    order === "featured" || order === "highest"
+      ? list.sort((a, b) =>
+          a.price < b.price ? 1 : a.price > b.price ? -1 : 0
+        )
+      : order === "lowest"
+      ? list.sort((a, b) =>
+          a.price > b.price ? 1 : a.price < b.price ? -1 : 0
+        )
+      : order === "toprated"
+      ? { rating: -1 }
+      : order === "newest"
+      ? { createdAt: -1 }
+      : { _id: -1 };
+  }
+
+  fs.readFile("./data/clothing.json", "utf-8", (err, data) => {
+    if (err) {
+      res.status(404).send({ message: "Can't connect to cloting Database" });
+    } else {
+      let products = JSON.parse(data);
+      products =
+        category === "all"
+          ? products
+          : products.filter((x) => x.category === category);
+      products =
+        price === "all"
+          ? products
+          : products.filter((x) => x.price <= parseInt(price));
+      products =
+        rating === "all"
+          ? products
+          : products.filter((x) => x.rating >= rating);
+
+      const countProducts = Object.keys(products).length;
+      sortOrder(products);
+      // add a way to skip pages
+      // add a way to set pages returned
+
+      res.send({
+        products,
+        countProducts,
+        page,
+        pages: Math.ceil(countProducts / pageSize),
+      });
+    }
+  });
+});
+
 //PUT
 app.put("/api/orders/:id/pay", isAuth, (req, res) => {
   var today = new Date();
