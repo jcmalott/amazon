@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
 import HomeScreen from "../screens/HomeScreen";
 import ProductScreen from "../screens/ProductScreen";
@@ -17,6 +17,11 @@ import PaymentMethodScreen from "../screens/PaymentMethodScreen";
 import PlaceOrderScreen from "../screens/PlaceOrderScreen";
 import OrderScreen from "../screens/OrderScreen";
 import OrderHistoryScreen from "../screens/OrderHistoryScreen";
+import ProfileScreen from "../screens/ProfileScreen";
+import axios from "axios";
+import { getError } from "../helper/utils";
+import Button from "react-bootstrap/Button";
+import SearchBox from "./SearchBox";
 
 // Create a Navbar with name Amazona
 // Create Router for pages Home Product Cart Signin
@@ -30,19 +35,51 @@ const App = () => {
     localStorage.removeItem("userInfo");
     localStorage.removeItem("shippingAddress");
     localStorage.removeItem("paymentMethod");
+    window.location.href = "/signin";
   };
+
+  // const categories = [];
+
+  const [sidebarIsOpen, setSidebarIsOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get(`/api/categories`);
+        console.log("Categories", data);
+        setCategories(data);
+      } catch (err) {
+        alert(getError(err));
+      }
+    };
+    fetchCategories();
+  }, []);
 
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column site-container">
+      <div
+        className={
+          sidebarIsOpen
+            ? "d-flex flex-column site-container active-cont"
+            : "d-flex flex-column site-container"
+        }
+      >
         <header>
           <Navbar bg="dark" variant="dark" expand="lg">
             <Container>
+              <Button
+                variant="dark"
+                onClick={() => setSidebarIsOpen(!sidebarIsOpen)}
+              >
+                <i className="fas fa-bars"></i>
+              </Button>
               <LinkContainer to="/">
                 <Navbar.Brand>Amazona</Navbar.Brand>
               </LinkContainer>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
+                <SearchBox />
                 <Nav className="me-auto w-100  justify-content-end">
                   <Link to="/cart" className="nav-link">
                     Cart
@@ -79,6 +116,29 @@ const App = () => {
             </Container>
           </Navbar>
         </header>
+        <div
+          className={
+            sidebarIsOpen
+              ? "active-nav side-navbar d-flex justify-content-between flex-wrap flex-column"
+              : "side-navbar d-flex justify-content-between flex-wrap flex-column"
+          }
+        >
+          <Nav className="flex-column text-white w-100 p-2">
+            <Nav.Item>
+              <strong>Categories</strong>
+            </Nav.Item>
+            {categories.map((category) => (
+              <Nav.Item key={category}>
+                <Link
+                  to={`/search?category=${category}`}
+                  onClick={() => setSidebarIsOpen(false)}
+                >
+                  <Nav.Link>{category}</Nav.Link>
+                </Link>
+              </Nav.Item>
+            ))}
+          </Nav>
+        </div>
         <main>
           <Container className="mt-3">
             <Routes>
@@ -86,6 +146,7 @@ const App = () => {
                 path="/shipping"
                 element={<ShippingAddressScreen />}
               ></Route>
+              <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/orderhistory" element={<OrderHistoryScreen />} />
               <Route path="/order/:id" element={<OrderScreen />} />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />

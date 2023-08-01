@@ -82,6 +82,21 @@ app.get("/api/orders/:id", isAuth, (req, res) => {
   });
 });
 
+app.get("/api/categories", (req, res) => {
+  fs.readFile("./data/clothing.json", "utf-8", (err, data) => {
+    if (err) {
+      res.status(404).send({ message: "Can't connect to clothing Database" });
+    } else {
+      const products = JSON.parse(data);
+      // list categories with no duplicates
+      let categories = products
+        .map((x) => x.category)
+        .filter((value, index, self) => self.indexOf(value) === index);
+      res.send(categories);
+    }
+  });
+});
+
 //PUT
 app.put("/api/orders/:id/pay", isAuth, (req, res) => {
   var today = new Date();
@@ -107,8 +122,6 @@ app.put("/api/orders/:id/pay", isAuth, (req, res) => {
           email_address: req.body.email_address,
         };
 
-        //Update order info to database
-        orders[req.params.id] = order;
         fs.writeFile(
           "./data/orders.json",
           JSON.stringify(orders, null, 2),
@@ -119,6 +132,44 @@ app.put("/api/orders/:id/pay", isAuth, (req, res) => {
         res.send({ message: "Order Paid", order: order });
       } else {
         res.status(404).send({ message: "Order Not Found" });
+      }
+    }
+  });
+});
+
+app.put("/api/users/profile", isAuth, (req, res) => {
+  fs.readFile("./data/users.json", "utf-8", (err, data) => {
+    if (err) {
+      res.status(404).send({ message: "Can't connect to users Database" });
+    } else {
+      const users = JSON.parse(data);
+      const user = users.find((x) => x._id === req.user._id);
+
+      if (user) {
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+
+        if (req.body.password) {
+          user.password = bcrypt.hashSync(req.body.password, 8);
+
+          fs.writeFile(
+            "./data/users.json",
+            JSON.stringify(users, null, 2),
+            (err) => {
+              err ? console.log(err) : console.log("File Written");
+            }
+          );
+
+          res.send({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            token: generateToken(user),
+          });
+        }
+      } else {
+        res.status(404).send({ message: "User Not Found" });
       }
     }
   });

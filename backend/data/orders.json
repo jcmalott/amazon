@@ -153,12 +153,17 @@
     "taxPrice": 18,
     "totalPrice": 138,
     "user_id": "3",
-    "isPaid": false,
-    "paidAt": "",
+    "isPaid": true,
+    "paidAt": "2023-07-28T15:04:45.870Z",
     "isDelivered": false,
     "createdAt": "2023-7-26 8:23:45",
     "deliveredAt": "",
-    "_id": "7"
+    "_id": "7",
+    "paymentResult": {
+      "id": "4AK632426M4414114",
+      "status": "COMPLETED",
+      "update_time": "2023-07-28T15:04:46Z"
+    }
   },
   {
     "orderItems": [
@@ -201,5 +206,42 @@
       "status": "COMPLETED",
       "update_time": "2023-07-26T18:12:23Z"
     }
+  },
+  {
+    "orderItems": [
+      {
+        "slug": "nike-slim-shirt",
+        "name": "Nike Slim Shirt",
+        "quantity": 1,
+        "image": "/img/p1.jpg",
+        "price": 120,
+        "product": "1"
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "John Name",
+      "address": "Random Street",
+      "city": "Lebanon",
+      "postalCode": "455036",
+      "country": "US"
+    },
+    "paymentMethod": "PayPal",
+    "paymentResults": {
+      "id": "235",
+      "status": "Paid",
+      "emailAddress": "user@example.com",
+      "update_time": "2023-7-28 8:0:1"
+    },
+    "itemsPrice": 120,
+    "shippingPrice": 0,
+    "taxPrice": 18,
+    "totalPrice": 138,
+    "user_id": "235",
+    "createdAt": "2023-7-28 8:0:1",
+    "isPaid": false,
+    "paidAt": "",
+    "isDelivered": false,
+    "deliveredAt": "",
+    "_id": "6"
   }
 ]
