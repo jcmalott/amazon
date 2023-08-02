@@ -23,6 +23,9 @@ import { getError } from "../helper/utils";
 import Button from "react-bootstrap/Button";
 import SearchBox from "./SearchBox";
 import SearchScreen from "../screens/SearchScreen";
+import AdminRoute from "./AdminRoute";
+import DashboardScreen from "../screens/DashboardScreen";
+import ProtectedRoute from "./ProtectedRoute";
 
 // Create a Navbar with name Amazona
 // Create Router for pages Home Product Cart Signin
@@ -112,6 +115,22 @@ const App = () => {
                       Sign In
                     </Link>
                   )}
+                  {userInfo && userInfo.isAdmin && (
+                    <NavDropdown title="Admin" id="admin-nav-dropdown">
+                      <LinkContainer to="/admin/dashboard">
+                        <NavDropdown.Item>Dashboard</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/productlist">
+                        <NavDropdown.Item>Products</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/orderlist">
+                        <NavDropdown.Item>Orders</NavDropdown.Item>
+                      </LinkContainer>
+                      <LinkContainer to="/admin/userlist">
+                        <NavDropdown.Item>Users</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  )}
                 </Nav>
               </Navbar.Collapse>
             </Container>
@@ -143,14 +162,46 @@ const App = () => {
         <main>
           <Container className="mt-3">
             <Routes>
+              {/*ADMIN ROUTES*/}
+              <Route
+                path="/admin/dashboard"
+                element={
+                  <AdminRoute>
+                    <DashboardScreen />
+                  </AdminRoute>
+                }
+              />
+
+              {/*USER ROUTES*/}
               <Route
                 path="/shipping"
                 element={<ShippingAddressScreen />}
               ></Route>
               <Route path="/search" element={<SearchScreen />} />
-              <Route path="/profile" element={<ProfileScreen />} />
-              <Route path="/orderhistory" element={<OrderHistoryScreen />} />
-              <Route path="/order/:id" element={<OrderScreen />} />
+              <Route
+                path="/profile"
+                element={
+                  <ProtectedRoute>
+                    <ProfileScreen />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/orderhistory"
+                element={
+                  <ProtectedRoute>
+                    <OrderHistoryScreen />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/order/:id"
+                element={
+                  <ProtectedRoute>
+                    <OrderScreen />
+                  </ProtectedRoute>
+                }
+              />
               <Route path="/placeorder" element={<PlaceOrderScreen />} />
               <Route path="/payment" element={<PaymentMethodScreen />} />
               <Route path="/product/:slug" element={<ProductScreen />} />

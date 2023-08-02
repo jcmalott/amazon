@@ -15,9 +15,16 @@
   },
   {
     "_id": "3",
-    "name": "Jane Doe",
-    "email": "janedoe@gmail.com",
-    "password": "$2a$10$qJ3PhDLpXvJQeBPAN8Sj0OneYOya55VbAKKnmJPzqaPYf0d1ciR/O",
+    "name": "John Name",
+    "email": "user@example.com",
+    "password": "$2a$08$6qLDJQJCsAu0/B9oFIG8dOM2N.eIAYIALgAV9paaE3epmO5V1VicC",
     "isAdmin": false
+  },
+  {
+    "_id": "3",
+    "name": "Admin Test",
+    "email": "admintest@example.com",
+    "password": "$2a$10$DUo2AJpnwr0GSIVkQ.cbi.9.VdIIe8LSw6Ne8zHI2LE134j0QGiFS",
+    "isAdmin": true
   }
 ]
