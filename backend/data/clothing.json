@@ -50,5 +50,18 @@
     "rating": 3,
     "numReviews": 12,
     "description": "high quality pants"
+  },
+  {
+    "_id": "5",
+    "name": "Walmart Shirt",
+    "slug": "sample-name-1691771261040",
+    "image": "/images/p1.jpg",
+    "price": 0,
+    "category": "sample category",
+    "countInStock": 0,
+    "brand": "sample brand",
+    "rating": 0,
+    "numReviews": 0,
+    "description": "sample description"
   }
 ]

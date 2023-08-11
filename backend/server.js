@@ -6,7 +6,7 @@ import express from "express";
 import fs from "fs";
 import products from "./data/products.js";
 import bcrypt from "bcryptjs";
-import { generateToken, isAuth } from "./utils.js";
+import { generateToken, isAdmin, isAuth } from "./utils.js";
 import Order from "./components/Order.js";
 import AddToFile from "./components/AddToFile.js";
 import { PAYPAL_CLIENT_ID } from "./ServerStrings.js";
@@ -108,27 +108,6 @@ app.get("/api/search", (req, res) => {
   const order = query.order || "";
   const searchQuery = query.query || "";
 
-  // const queryFilter =
-  //   searchQuery && searchQuery !== "all"
-  //     ? {
-  //         name: {
-  //           $regex: searchQuery,
-  //           $options: "i",
-  //         },
-  //       }
-  //     : {};
-
-  // const priceFilter =
-  //   price && price !== "all"
-  //     ? {
-  //         // 1-50
-  //         price: {
-  //           $gte: Number(price.split("-")[0]),
-  //           $lte: Number(price.split("-")[1]),
-  //         },
-  //       }
-  //     : {};
-
   function sortOrder(list) {
     order === "featured" || order === "highest"
       ? list.sort((a, b) =>
@@ -170,6 +149,78 @@ app.get("/api/search", (req, res) => {
 
       res.send({
         products,
+        countProducts,
+        page,
+        pages: Math.ceil(countProducts / pageSize),
+      });
+    }
+  });
+});
+
+app.get("/api/admin", isAuth, isAdmin, (req, res) => {
+  let orders = {};
+  let users = {};
+  console.log("Connected");
+
+  fs.readFile("./data/users.json", "utf-8", (err, data) => {
+    if (err) {
+      res.status(404).send({ message: "Can't connect to users Database" });
+    } else {
+      const dataParsed = JSON.parse(data);
+      // number of users
+      users = { numOfUsers: dataParsed.length };
+    }
+  });
+
+  fs.readFile("./data/orders.json", "utf-8", (err, data) => {
+    if (err) {
+      res.status(404).send({ message: "Can't connect to Orders Database" });
+    } else {
+      const dataParsed = JSON.parse(data);
+      // number of orders
+      // total sales
+      const numOrders = dataParsed.length;
+      const totalSales = dataParsed.reduce((a, c) => a + c.itemsPrice, 0);
+      // total prices of orders each day
+      const dailyOrders = {};
+      // number of items in each category
+      let categories = [];
+      const productCategories = dataParsed.map((x) => {
+        x.orderItems.map((item) => {
+          const duplicate = categories.find(
+            (y) => y.category === item.category
+          );
+          duplicate
+            ? (duplicate.amount += 1)
+            : categories.push({ category: item.category, amount: 1 });
+        });
+      });
+
+      orders = { numOrders, totalSales, dailyOrders, productCategories };
+      console.log("Categories ", categories);
+      res.send({ users, orders, categories });
+    }
+  });
+});
+
+app.get("/api/admin/products", isAuth, isAdmin, (req, res) => {
+  const { query } = req;
+  const page = query.page || 1;
+  const pageSize = query.pageSize || PAGE_SIZE;
+
+  fs.readFile("./data/clothing.json", "utf-8", (err, data) => {
+    if (err) {
+      res.status(404).send({ message: "Can't connect to clothing Database" });
+    } else {
+      const products = JSON.parse(data);
+      // 0-3 3-6 6-9
+      const productsToDisplay = products.slice(
+        (page - 1) * pageSize,
+        page * pageSize
+      );
+      const countProducts = products.length;
+      res.send({
+        productsToDisplay,
         countProducts,
         page,
         pages: Math.ceil(countProducts / pageSize),
@@ -256,6 +307,40 @@ app.put("/api/users/profile", isAuth, (req, res) => {
   });
 });
 
+app.put("/api/products/:id", isAuth, (req, res) => {
+  fs.readFile("./data/clothing.json", "utf-8", (err, data) => {
+    if (err) {
+      res.status(404).send({ message: "Can't connect to clothing Database" });
+    } else {
+      const products = JSON.parse(data);
+      const product = products.find((x) => x._id === req.params.id);
+
+      if (product) {
+        product.name = req.body.name;
+        product.slug = req.body.slug;
+        product.price = req.body.price;
+        product.image = req.body.image;
+        product.category = req.body.category;
+        product.brand = req.body.brand;
+        product.countInStock = req.body.countInStock;
+        product.description = req.body.description;
+
+        fs.writeFile(
+          "./data/clothing.json",
+          JSON.stringify(products, null, 2),
+          (err) => {
+            err ? console.log(err) : console.log("File Written");
+          }
+        );
+
+        res.send({ message: "Product Updated" });
+      } else {
+        res.status(404).send({ message: "Product Not Found" });
+      }
+    }
+  });
+});
+
 //POST
 app.post("/api/users/signin", (req, res) => {
   fs.readFile("./data/users.json", "utf-8", (err, data) => {
@@ -319,6 +404,36 @@ app.post("/api/orders", isAuth, (req, res) => {
   // AddToFile("./data/orders.json", newOrder, true);
 
   res.status(201).send({ message: "New Order Created", order });
+});
+
+app.post("/api/products", isAuth, (req, res) => {
+  const fileContents = fs.readFileSync("./data/clothing.json", "utf-8");
+  let parseContents = JSON.parse(fileContents);
+
+  const newProduct = {
+    _id: (parseContents.length + 1).toString(),
+    name: "sample name " + Date.now(),
+    slug: "sample-name-" + Date.now(),
+    image: "/images/p1.jpg",
+    price: 0,
+    category: "sample category",
+    countInStock: 0,
+    brand: "sample brand",
+    rating: 0,
+    numReviews: 0,
+    description: "sample description",
+  };
+
+  parseContents.push(newProduct);
+  fs.writeFile(
+    "./data/clothing.json",
+    JSON.stringify(parseContents, null, 2),
+    (err) => {
+      err ? console.log(err) : console.log("File Written");
+    }
+  );
+
+  res.send({ message: "New Product Created", newProduct });
 });
 
 const port = process.env.PORT || 5000;
