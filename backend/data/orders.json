@@ -5,6 +5,7 @@
       {
         "slug": "nike-slim-shirt",
         "name": "Nike Slim Shirt",
+        "category": "Shirts",
         "quantity": 1,
         "image": "/img/p1.jpg",
         "price": 120,
@@ -13,6 +14,7 @@
       {
         "slug": "nike-slim-pants",
         "name": "Nike Slim Pants",
+        "category": "Shirts",
         "quantity": 1,
         "image": "/img/p3.jpg",
         "price": 170,
@@ -50,6 +52,7 @@
       {
         "slug": "adidas-slim-pants",
         "name": "Adidas Slim Pants",
+        "category": "Pants",
         "quantity": 1,
         "image": "/img/p4.jpg",
         "price": 150,
@@ -86,6 +89,7 @@
       {
         "slug": "nike-slim-shirt",
         "name": "Nike Slim Shirt",
+        "category": "Shirts",
         "quantity": 1,
         "image": "/img/p1.jpg",
         "price": 120,
@@ -128,6 +132,7 @@
       {
         "slug": "nike-slim-shirt",
         "name": "Nike Slim Shirt",
+        "category": "Shirts",
         "quantity": 1,
         "image": "/img/p1.jpg",
         "price": 120,
@@ -170,6 +175,7 @@
       {
         "slug": "nike-slim-shirt",
         "name": "Nike Slim Shirt",
+        "category": "Shirts",
         "quantity": 1,
         "image": "/img/p1.jpg",
         "price": 120,
@@ -212,6 +218,7 @@
       {
         "slug": "nike-slim-shirt",
         "name": "Nike Slim Shirt",
+        "category": "Shirts",
         "quantity": 1,
         "image": "/img/p1.jpg",
         "price": 120,
@@ -243,5 +250,42 @@
     "isDelivered": false,
     "deliveredAt": "",
     "_id": "6"
+  },
+  {
+    "orderItems": [
+      {
+        "slug": "nike-slim-shirt",
+        "name": "Nike Slim Shirt",
+        "quantity": 1,
+        "image": "/img/p1.jpg",
+        "price": 120,
+        "product": "1"
+      }
+    ],
+    "shippingAddress": {
+      "fullName": "Jonathan Malott",
+      "address": "2195 nw 18th ave apt 2400",
+      "city": "Portland",
+      "postalCode": "97209",
+      "country": "United States"
+    },
+    "paymentMethod": "PayPal",
+    "paymentResults": {
+      "id": "3",
+      "status": "Paid",
+      "emailAddress": "admintest@example.com",
+      "update_time": "2023-8-9 4:19:30"
+    },
+    "itemsPrice": 120,
+    "shippingPrice": 0,
+    "taxPrice": 18,
+    "totalPrice": 138,
+    "user_id": "3",
+    "createdAt": "2023-8-9 4:19:30",
+    "isPaid": false,
+    "paidAt": "",
+    "isDelivered": false,
+    "deliveredAt": "",
+    "_id": "7"
   }
 ]
